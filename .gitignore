@@ -1,0 +1,62 @@
+# ==========================================
+# CityOS AI — Root .gitignore
+# ==========================================
+
+# Secrets & credentials — NEVER commit these
+*.env
+.env.*
+!.env.example
+!.env.local.example
+firebase-adminsdk.json
+*-service-account*.json
+*-credentials*.json
+google-credentials.json
+secrets/
+
+# Python
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.pyc
+backend/**/*.pyo
+backend/**/*.pyd
+backend/.pytest_cache/
+backend/.mypy_cache/
+backend/dist/
+backend/build/
+backend/*.egg-info/
+.python-version
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.vercel/
+frontend/coverage/
+frontend/.turbo/
+
+# OS & IDE
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+*.pem
+*.key
+*.cert
+.nyc_output/
