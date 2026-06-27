@@ -1,0 +1,99 @@
+/* ==========================================================================
+   CityOS AI — Design System · Theme tokens (single source of truth)
+   --------------------------------------------------------------------------
+   Color channels are space-separated RGB so Tailwind's `/opacity` modifier
+   works: rgb(var(--token) / <alpha-value>).
+   Never pure black. Never pure white in dark mode.
+   ========================================================================== */
+
+:root {
+  /* ---- Neutrals (the 95%) ------------------------------------------------ */
+  --bg: 248 249 251;            /* Background — soft warm gray */
+  --surface: 255 255 255;       /* Cards — pure white */
+  --surface-muted: 241 243 245; /* Muted / secondary surface */
+  --border: 230 232 235;
+  --border-strong: 215 219 224;
+  --text: 26 30 36;             /* Near black, never harsh */
+  --text-muted: 95 107 122;
+  --text-subtle: 138 148 161;
+
+  /* ---- Brand & state ----------------------------------------------------- */
+  --primary: 26 115 232;        /* Google Blue */
+  --primary-soft: 232 240 254;
+  --on-primary: 255 255 255;
+  --accent: 26 115 232;         /* Distinct token; aligned with primary today */
+  --secondary: 95 107 122;
+  --secondary-soft: 238 240 243;
+
+  --success: 30 142 62;
+  --success-soft: 230 244 234;
+  --warning: 217 119 6;
+  --warning-soft: 254 246 226;
+  --danger: 217 48 37;
+  --danger-soft: 252 233 231;
+  --info: 14 165 233;
+  --info-soft: 224 242 254;
+
+  /* ---- Interaction & system --------------------------------------------- */
+  --overlay: 17 20 24;          /* Scrim base (used with alpha) */
+  --glass: 255 255 255;         /* Glass surface base (used with alpha) */
+  --focus: 26 115 232;
+  --selection: 232 240 254;
+  --hover: 241 243 245;
+  --pressed: 230 232 235;
+  --disabled: 138 148 161;
+
+  /* ---- Elevation (soft, almost invisible) ------------------------------- */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 1px rgba(15, 23, 42, 0.03);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.1), 0 4px 8px rgba(15, 23, 42, 0.05);
+  --shadow-xl: 0 24px 56px rgba(15, 23, 42, 0.14), 0 8px 16px rgba(15, 23, 42, 0.06);
+  /* Back-compat aliases */
+  --elevation-1: var(--shadow-sm);
+  --elevation-2: var(--shadow-md);
+  --elevation-3: var(--shadow-lg);
+
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+.dark {
+  --bg: 17 20 24;
+  --surface: 26 30 36;
+  --surface-muted: 34 39 48;
+  --border: 42 47 56;
+  --border-strong: 53 59 69;
+  --text: 232 234 237;
+  --text-muted: 154 164 178;
+  --text-subtle: 107 116 128;
+
+  --primary: 138 180 248;
+  --primary-soft: 31 46 68;
+  --on-primary: 17 20 24;
+  --accent: 138 180 248;
+  --secondary: 154 164 178;
+  --secondary-soft: 34 39 48;
+
+  --success: 129 201 149;
+  --success-soft: 27 45 36;
+  --warning: 253 214 99;
+  --warning-soft: 48 42 27;
+  --danger: 242 139 130;
+  --danger-soft: 52 34 33;
+  --info: 121 199 240;
+  --info-soft: 23 43 54;
+
+  --overlay: 0 0 0;
+  --glass: 26 30 36;
+  --focus: 138 180 248;
+  --selection: 31 46 68;
+  --hover: 34 39 48;
+  --pressed: 42 47 56;
+  --disabled: 107 116 128;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 6px 18px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 18px 44px rgba(0, 0, 0, 0.62);
+  --shadow-xl: 0 0 0 1px rgba(255, 255, 255, 0.07), 0 28px 64px rgba(0, 0, 0, 0.7);
+}

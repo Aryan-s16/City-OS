@@ -1,0 +1,20 @@
+/** Re-export design tokens + motion presets from the design system. */
+export {
+  spacing,
+  radius,
+  typeScale,
+  fontWeight,
+  duration,
+  easing,
+  blur,
+  opacity,
+  zIndex,
+  border,
+  transitions,
+  fade,
+  fadeRise,
+  scaleIn,
+  slideRight,
+  swap,
+  stagger,
+} from "@ds";

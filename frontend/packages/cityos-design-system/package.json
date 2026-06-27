@@ -1,0 +1,12 @@
+{
+  "name": "@cityos/design-system",
+  "version": "0.1.0",
+  "description": "CityOS AI — internal design system. One source of truth for tokens, themes, motion, and components.",
+  "private": true,
+  "type": "module",
+  "sideEffects": ["*.css"],
+  "exports": {
+    ".": "./index.ts",
+    "./themes/theme.css": "./themes/theme.css"
+  }
+}
