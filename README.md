@@ -165,6 +165,8 @@ Frontend:
 - Framer Motion for animation
 - Zustand for state
 - Lucide for iconography
+- MapLibre GL with react-map-gl, Supercluster, and Turf.js for the map, using
+  OpenStreetMap vector tiles (no API key required)
 
 Backend:
 
@@ -245,10 +247,11 @@ npm run dev                          # http://localhost:3000
 Frontend (`frontend/.env.local`):
 
 - `NEXT_PUBLIC_API_BASE_URL` — backend base URL.
-- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` — optional. When set, the Digital Twin can
-  swap its abstract canvas for live styled map tiles. Without it, the app uses
-  the built-in abstract city canvas.
 - `NEXT_PUBLIC_FIREBASE_*` — Firebase web app configuration.
+
+The map requires no key. CityOS uses MapLibre GL with OpenStreetMap vector
+tiles (OpenFreeMap) for the light theme and CARTO raster tiles for dark, both
+free and key-free.
 
 Backend (`backend/.env`):
 
@@ -272,8 +275,9 @@ Backend (`backend/.env`):
 - The frontend experience is implemented end to end across all workspaces, the
   design system, the reporting wizard, and the command palette. It currently
   runs on representative in-app data.
-- The map experience runs on a self-contained abstract city canvas. Live Google
-  Maps tiles activate when `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is provided.
+- The map experience is built on MapLibre GL with OpenStreetMap vector tiles
+  and requires no API key. It includes custom markers, clustering, heatmaps,
+  prediction zones, mission routes, crew tracking, and a timeline.
 - Voice capture and AI analysis in the reporting wizard are realistic
   simulations on the client, structured so live device capture and Gemini calls
   can be connected without changing the surrounding UI.

@@ -109,6 +109,56 @@ export const ISSUES: Issue[] = [
     summary:
       "Repair verified by two community photos. Closed automatically by the Comms agent.",
   },
+  {
+    id: "i-5",
+    title: "Overflowing bins",
+    district: "Castro",
+    tone: "warning",
+    status: "Scheduled",
+    time: "44m",
+    x: "20%",
+    y: "60%",
+    confidence: 0.82,
+    summary:
+      "Bins past capacity; an extra pickup is suggested before the weekend.",
+  },
+  {
+    id: "i-6",
+    title: "Transformer fault",
+    district: "Nob Hill",
+    tone: "danger",
+    status: "Critical",
+    time: "12m",
+    x: "52%",
+    y: "30%",
+    confidence: 0.93,
+    summary:
+      "Localized outage risk detected; isolation of the affected segment is recommended.",
+  },
+  {
+    id: "i-7",
+    title: "Cracked asphalt",
+    district: "Hayes Valley",
+    tone: "primary",
+    status: "Queued",
+    time: "1h",
+    x: "34%",
+    y: "50%",
+    confidence: 0.79,
+    summary: "Surface degradation along the corridor; low severity, queued for batching.",
+  },
+  {
+    id: "i-8",
+    title: "Water main seep",
+    district: "Marina",
+    tone: "warning",
+    status: "Assessing",
+    time: "26m",
+    x: "70%",
+    y: "18%",
+    confidence: 0.85,
+    summary: "Possible slow leak inferred from imagery; field assessment scheduled.",
+  },
 ];
 
 export const MISSIONS: Mission[] = [
