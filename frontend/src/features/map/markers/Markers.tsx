@@ -10,18 +10,25 @@ import {
   Lightbulb,
   Truck,
   ThumbsUp,
+  TreePine,
+  AlertCircle,
+  HelpCircle,
+  Building2,
   type LucideIcon,
 } from "lucide-react";
 import { cn, type Tone } from "@ds";
 import type { GeoIssue, IssueCategory } from "../types";
 
-const CATEGORY_ICON: Record<IssueCategory, LucideIcon> = {
+const CATEGORY_ICON: Record<string, LucideIcon> = {
   road: TrafficCone,
   water: Droplets,
   electrical: Zap,
   garbage: Trash2,
   signal: RadioTower,
   streetlight: Lightbulb,
+  vegetation: TreePine,
+  sewage: AlertCircle,
+  property: Building2,
 };
 
 const ring: Record<Tone, string> = {
@@ -61,7 +68,7 @@ export function IssuePin({
   dimmed?: boolean;
   onClick?: () => void;
 }) {
-  const Icon = CATEGORY_ICON[issue.category];
+  const Icon = CATEGORY_ICON[issue.category] || HelpCircle;
   return (
     <button
       onClick={(e) => {

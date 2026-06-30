@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { duration, easing } from "@/design/tokens";
+import { duration, easing } from "@/styles/tokens";
 
 /**
  * Seamless room-to-room transition. Re-runs on every navigation so each

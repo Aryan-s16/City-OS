@@ -191,7 +191,7 @@ export default function Settings() {
           {cat === "city" && (
             <section>
               <h2 className="text-section">City</h2>
-              <Row title="Active city" desc="San Francisco, CA" />
+              <Row title="Active city" desc="Pune, MH" />
               <Row title="Districts" desc="11 districts · 4 departments" />
             </section>
           )}

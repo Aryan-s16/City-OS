@@ -13,7 +13,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { Button } from "@ds";
-import { duration, easing } from "@/design/tokens";
+import { duration, easing } from "@/styles/tokens";
 import { cn } from "@/lib/utils";
 
 type Tone = "primary" | "success" | "warning" | "danger";

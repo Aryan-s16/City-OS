@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from typing import List, Optional
 from datetime import datetime
 
@@ -46,6 +46,28 @@ class IssueResponse(IssueBase):
     createdAt: datetime
     updatedAt: datetime
     resolvedAt: Optional[datetime] = None
+
+    @model_validator(mode='before')
+    @classmethod
+    def set_legacy_defaults(cls, data: dict) -> dict:
+        if isinstance(data, dict):
+            if 'location' not in data:
+                data['location'] = {'lat': 0.0, 'lng': 0.0, 'address': 'Unknown Location'}
+            if 'images' not in data:
+                data['images'] = []
+            if 'tags' not in data:
+                data['tags'] = []
+            if 'createdAt' not in data:
+                data['createdAt'] = datetime.utcnow()
+            if 'updatedAt' not in data:
+                data['updatedAt'] = datetime.utcnow()
+            if 'priority' not in data:
+                data['priority'] = 'medium'
+            if 'category' not in data:
+                data['category'] = 'other'
+            if 'status' not in data:
+                data['status'] = 'open'
+        return data
 
     class Config:
         from_attributes = True

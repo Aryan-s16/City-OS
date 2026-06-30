@@ -59,7 +59,7 @@ export default function ReportWizard() {
   const [files, setFiles] = useState<UploadItem[]>([]);
   const [note, setNote] = useState("");
   const [transcript, setTranscript] = useState("");
-  const [address, setAddress] = useState("Near Market & 5th St, San Francisco");
+  const [address, setAddress] = useState("Near Market & 5th St, Pune");
   const [captureError, setCaptureError] = useState("");
 
   const [analysisComplete, setAnalysisComplete] = useState(false);
@@ -89,7 +89,7 @@ export default function ReportWizard() {
   const onAnalysisComplete = () => {
     setAnalysisComplete(true);
     setReview({
-      title: "Pothole cluster on Market Street",
+      title: "Pothole cluster on FC Road",
       description: transcript || note || RESULT.summary,
       category: RESULT.issueType,
       location: address,

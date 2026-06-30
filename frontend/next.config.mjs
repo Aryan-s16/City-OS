@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Serialize build workers to keep peak memory low when bundling the heavy
-  // map engine (MapLibre). Helps constrained build environments.
+  eslint: {
+    ignoreDuringBuilds: true, // ESLint v9 + Next 14 incompatibility; lint via CI separately
+  },
   experimental: {
     cpus: 1,
     workerThreads: false,

@@ -4,6 +4,12 @@
  * consistently across every workspace.
  */
 
+/**
+ * @file mock.ts
+ * @warning STATIC MOCK DATA. DO NOT USE IN PRODUCTION.
+ * @todo Phase B: Replace these constants with API calls to the FastAPI backend.
+ */
+
 export type Tone = "danger" | "warning" | "primary" | "success" | "info";
 
 export interface Issue {
@@ -60,7 +66,7 @@ export const ISSUES: Issue[] = [
   {
     id: "i-1",
     title: "Drainage failure",
-    district: "Mission District",
+    district: "Kothrud",
     tone: "danger",
     status: "Critical",
     time: "4m",
@@ -73,7 +79,7 @@ export const ISSUES: Issue[] = [
   {
     id: "i-2",
     title: "Pothole cluster",
-    district: "Market Street",
+    district: "FC Road",
     tone: "warning",
     status: "Assessing",
     time: "18m",
@@ -86,7 +92,7 @@ export const ISSUES: Issue[] = [
   {
     id: "i-3",
     title: "Signal outage",
-    district: "SoMa",
+    district: "Deccan",
     tone: "primary",
     status: "Routing",
     time: "32m",
@@ -99,7 +105,7 @@ export const ISSUES: Issue[] = [
   {
     id: "i-4",
     title: "Streetlight repair",
-    district: "Embarcadero",
+    district: "Kalyani Nagar",
     tone: "success",
     status: "Resolved",
     time: "1h",
@@ -112,7 +118,7 @@ export const ISSUES: Issue[] = [
   {
     id: "i-5",
     title: "Overflowing bins",
-    district: "Castro",
+    district: "Baner",
     tone: "warning",
     status: "Scheduled",
     time: "44m",
@@ -125,7 +131,7 @@ export const ISSUES: Issue[] = [
   {
     id: "i-6",
     title: "Transformer fault",
-    district: "Nob Hill",
+    district: "Hinjewadi",
     tone: "danger",
     status: "Critical",
     time: "12m",
@@ -138,7 +144,7 @@ export const ISSUES: Issue[] = [
   {
     id: "i-7",
     title: "Cracked asphalt",
-    district: "Hayes Valley",
+    district: "Aundh",
     tone: "primary",
     status: "Queued",
     time: "1h",
@@ -150,7 +156,7 @@ export const ISSUES: Issue[] = [
   {
     id: "i-8",
     title: "Water main seep",
-    district: "Marina",
+    district: "Camp",
     tone: "warning",
     status: "Assessing",
     time: "26m",
@@ -164,7 +170,7 @@ export const ISSUES: Issue[] = [
 export const MISSIONS: Mission[] = [
   {
     id: "m-1",
-    name: "Mission District drainage response",
+    name: "Kothrud drainage response",
     priority: "Critical",
     crew: "Water · Crew 7",
     progress: 35,
@@ -176,7 +182,7 @@ export const MISSIONS: Mission[] = [
   },
   {
     id: "m-2",
-    name: "Market St resurfacing batch",
+    name: "FC Road resurfacing batch",
     priority: "High",
     crew: "Roads · Crew 2",
     progress: 60,
@@ -188,12 +194,12 @@ export const MISSIONS: Mission[] = [
   },
   {
     id: "m-3",
-    name: "SoMa signal restoration",
+    name: "Deccan signal restoration",
     priority: "High",
     crew: "Transport · Crew 4",
     progress: 15,
     eta: "45m",
-    district: "SoMa",
+    district: "Deccan",
     status: "Planning",
     aiSummary:
       "Awaiting parts confirmation. Temporary traffic control deployed.",
@@ -211,7 +217,7 @@ export const MISSIONS: Mission[] = [
   },
   {
     id: "m-5",
-    name: "Embarcadero lighting closeout",
+    name: "Kalyani Nagar lighting closeout",
     priority: "Low",
     crew: "Electrical · Crew 3",
     progress: 100,
@@ -236,7 +242,7 @@ export const AGENTS: Agent[] = [
 export const PREDICTIONS: Prediction[] = [
   {
     id: "p-1",
-    title: "Flooding risk · Mission District",
+    title: "Flooding risk · Kothrud",
     probability: 0.78,
     reason: "Forecast rainfall meets 3 open drainage reports in low-lying zones.",
     action: "Pre-dispatch Water Crew 7 within the next 2 hours.",
@@ -247,7 +253,7 @@ export const PREDICTIONS: Prediction[] = [
     id: "p-2",
     title: "Traffic surge · Downtown",
     probability: 0.64,
-    reason: "Stadium event + ongoing Market St works overlap at 18:00.",
+    reason: "Stadium event + ongoing FC Road works overlap at 18:00.",
     action: "Shift resurfacing crew to night window.",
     impact: "Cuts projected congestion by ~30%.",
     tone: "warning",

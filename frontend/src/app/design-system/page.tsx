@@ -224,7 +224,7 @@ export default function DesignSystemPage() {
               <Select defaultValue="">
                 <option value="" disabled>Select a district…</option>
                 <option>Mission</option>
-                <option>SoMa</option>
+                <option>Deccan</option>
                 <option>Downtown</option>
               </Select>
               <Textarea placeholder="Describe the issue…" className="sm:col-span-2" />
@@ -350,7 +350,7 @@ export default function DesignSystemPage() {
           <Section kicker="Components" title="Cards & information">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <MissionCard
-                title="Mission District drainage response"
+                title="Kothrud drainage response"
                 priority="danger"
                 priorityLabel="Critical"
                 department="Water"
@@ -361,7 +361,7 @@ export default function DesignSystemPage() {
                 status="Dispatched"
               />
               <IssueCard
-                title="Pothole cluster · Market St"
+                title="Pothole cluster · FC Road"
                 summary="Seven potholes deduplicated from 41 citizen reports along a high-traffic corridor."
                 severity="warning"
                 severityLabel="Assessing"
@@ -370,7 +370,7 @@ export default function DesignSystemPage() {
                 confidence={0.88}
               />
               <PredictionCard
-                title="Flooding risk · Mission"
+                title="Flooding risk · Kothrud"
                 probability={0.78}
                 horizon="Next 6 hours"
                 impact="Avoids ~12 downstream reports and one road closure."
@@ -404,8 +404,8 @@ export default function DesignSystemPage() {
               />
               <div className="rounded-lg border border-border bg-surface p-5">
                 <div className="mb-3 space-y-2">
-                  <NotificationCard icon={AlertTriangle} tone="danger" title="Critical incident" description="Drainage failure · Mission District" time="4m" />
-                  <NotificationCard icon={Bell} tone="primary" title="Mission updated" description="Market St resurfacing · 60%" time="22m" />
+                  <NotificationCard icon={AlertTriangle} tone="danger" title="Critical incident" description="Drainage failure · Kothrud" time="4m" />
+                  <NotificationCard icon={Bell} tone="primary" title="Mission updated" description="FC Road resurfacing · 60%" time="22m" />
                 </div>
                 <Timeline
                   steps={[

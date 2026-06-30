@@ -9,9 +9,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useTheme, cn } from "@ds";
 import { useContextPanel } from "@/hooks/useContextPanel";
 import {
-  GEO_ISSUES, GEO_PREDICTIONS, GEO_CREWS, GEO_DEPARTMENTS, COMMUNITY_REPORTS, HEAT_POINTS,
+  GEO_PREDICTIONS, GEO_CREWS, GEO_DEPARTMENTS, COMMUNITY_REPORTS, HEAT_POINTS,
 } from "../data/city";
-import { SF_VIEW, SF_CENTER, mapStyleFor } from "../styles/styles";
+import { useLiveIssues } from "@/hooks/useLiveIssues";
+import { PUNE_VIEW, PUNE_CENTER, mapStyleFor } from "../styles/styles";
 import { heatFC, routesFC, departmentsFC } from "../layers/geojson";
 import { useSupercluster, type AnyProps } from "../hooks/useSupercluster";
 import { useCrewPositions } from "../hooks/useCrewPositions";
@@ -94,12 +95,13 @@ export default function CityMap({
   const { theme, toggle: toggleTheme } = useTheme();
   const { kind, id, select } = useContextPanel();
   const mapRef = useRef<MapRef>(null);
+  const { issues: liveIssues } = useLiveIssues();
 
   const [layers, setLayers] = useState<Set<MapLayerId>>(new Set(defaultLayers));
   const [frame, setFrame] = useState(0);
   const [simulate, setSimulate] = useState(false);
   const [bounds, setBounds] = useState<[number, number, number, number]>();
-  const [zoom, setZoom] = useState(SF_VIEW.zoom);
+  const [zoom, setZoom] = useState(PUNE_VIEW.zoom);
   const [think, setThink] = useState(0);
 
   useEffect(() => {
@@ -130,12 +132,12 @@ export default function CityMap({
     const showAll = layers.has("incidents");
     const showCritical = layers.has("critical");
     if (!showAll && !showCritical) return [];
-    return GEO_ISSUES.filter((i) => (showAll ? true : i.tone === "danger")).map((i) => ({
+    return liveIssues.filter((i) => (showAll ? true : i.tone === "danger")).map((i) => ({
       type: "Feature",
       properties: { issueId: i.id, tone: i.tone },
       geometry: { type: "Point", coordinates: [i.lng, i.lat] },
     }));
-  }, [layers]);
+  }, [layers, liveIssues]);
 
   const clusterOptions = useMemo(
     () => ({
@@ -167,7 +169,7 @@ export default function CityMap({
     if (!kind || !id) return;
     let center: [number, number] | undefined;
     if (kind === "issue") {
-      const i = GEO_ISSUES.find((x) => x.id === id);
+      const i = liveIssues.find((x) => x.id === id);
       if (i) center = [i.lng, i.lat];
     } else if (kind === "prediction") {
       const p = GEO_PREDICTIONS.find((x) => x.id === id);
@@ -193,7 +195,7 @@ export default function CityMap({
     <div className={cn("relative h-full w-full overflow-hidden rounded-map border border-border", className)}>
       <Map
         ref={mapRef}
-        initialViewState={SF_VIEW}
+        initialViewState={PUNE_VIEW}
         mapStyle={mapStyleFor(theme)}
         onLoad={syncViewport}
         onMoveEnd={syncViewport}
@@ -275,7 +277,7 @@ export default function CityMap({
               </Marker>
             );
           }
-          const issue = GEO_ISSUES.find((i) => i.id === (props.issueId as string));
+          const issue = liveIssues.find((i) => i.id === (props.issueId as string));
           if (!issue) return null;
           return (
             <Marker key={issue.id} longitude={lng} latitude={lat} anchor="center">
@@ -317,8 +319,17 @@ export default function CityMap({
           theme={theme}
           onZoomIn={() => mapRef.current?.zoomIn()}
           onZoomOut={() => mapRef.current?.zoomOut()}
-          onLocate={() => flyTo(SF_CENTER, 13)}
-          onReset={() => mapRef.current?.flyTo({ center: SF_CENTER, zoom: SF_VIEW.zoom, duration: 1000 })}
+          onLocate={() => {
+            if ("geolocation" in navigator) {
+              navigator.geolocation.getCurrentPosition(
+                (pos) => flyTo([pos.coords.longitude, pos.coords.latitude], 14),
+                () => flyTo(PUNE_CENTER, 13) // fallback
+              );
+            } else {
+              flyTo(PUNE_CENTER, 13); // fallback
+            }
+          }}
+          onReset={() => mapRef.current?.flyTo({ center: PUNE_CENTER, zoom: PUNE_VIEW.zoom, duration: 1000 })}
           onFullscreen={() => {
             const el = mapRef.current?.getContainer().parentElement ?? undefined;
             if (document.fullscreenElement) document.exitFullscreen();

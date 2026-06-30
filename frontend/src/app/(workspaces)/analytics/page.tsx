@@ -7,12 +7,12 @@ import {
   AIInsightCard,
   ExecutiveCard,
 } from "@ds";
-import { duration, easing } from "@/design/tokens";
+import { duration, easing } from "@/styles/tokens";
 
 const TREND = [42, 39, 44, 38, 34, 31, 29, 27, 25, 23, 21, 19];
 const DISTRICTS = [
   { name: "Mission", value: 82 },
-  { name: "SoMa", value: 64 },
+  { name: "Deccan", value: 64 },
   { name: "Downtown", value: 91 },
   { name: "Waterfront", value: 48 },
   { name: "Sunset", value: 57 },
@@ -96,7 +96,7 @@ export default function Analytics() {
       {/* AI insight */}
       <div className="mt-6">
         <AIInsightCard
-          recommendation="Extend trip-bundling to Mission & SoMa."
+          recommendation="Extend trip-bundling to Kothrud & Deccan."
           reason="Downtown's gain came from the Routing agent grouping nearby potholes into single crew trips — the same pattern is available elsewhere."
           confidence={0.84}
           impact="Projected 8 fewer hours of average resolution."
@@ -109,8 +109,8 @@ export default function Analytics() {
         <ExecutiveCard
           summary="Road infrastructure is improving at a record pace, driven by AI-optimized routing. Drainage remains the dominant seasonal risk ahead of forecast rainfall."
           risks={[
-            "Drainage backlog in low-lying Mission zones",
-            "Stadium-day congestion overlaps Market St works",
+            "Drainage backlog in low-lying Kothrud zones",
+            "Stadium-day congestion overlaps FC Road works",
           ]}
           opportunities={[
             "Trip-bundling rollout to two more districts",

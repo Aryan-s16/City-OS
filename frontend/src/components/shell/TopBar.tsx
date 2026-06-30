@@ -6,6 +6,7 @@ import { Search, Bell, ChevronDown, CloudSun, Plus } from "lucide-react";
 import { Button } from "@ds";
 import { Kbd } from "@/components/ui/Kbd";
 import { useCommandPalette } from "@/hooks/useCommandPalette";
+import { useNotifications } from "@/hooks/useNotifications";
 
 function LiveClock() {
   const [now, setNow] = useState<string | null>(null);
@@ -31,13 +32,14 @@ function LiveClock() {
  */
 export function TopBar() {
   const openPalette = useCommandPalette((s) => s.setOpen);
+  const { unreadCount } = useNotifications();
 
   return (
     <header className="flex h-[72px] shrink-0 items-center gap-4 px-6">
       {/* City selector */}
       <button className="flex items-center gap-2 rounded-button px-3 py-2 font-medium transition duration-fast ease-standard hover:bg-surface-muted">
         <span className="h-2 w-2 rounded-full bg-success" />
-        San Francisco
+        Pune
         <ChevronDown className="h-4 w-4 text-text-subtle" strokeWidth={1.75} />
       </button>
 
@@ -67,13 +69,16 @@ export function TopBar() {
         </Link>
       </Button>
 
-      <button
+      <Link
+        href="/notifications"
         aria-label="Notifications"
         className="relative flex h-10 w-10 items-center justify-center rounded-button text-text-muted transition duration-fast ease-standard hover:bg-surface-muted hover:text-text"
       >
         <Bell className="h-5 w-5" strokeWidth={1.75} />
-        <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full border-2 border-bg bg-danger" />
-      </button>
+        {unreadCount > 0 && (
+          <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full border-2 border-bg bg-danger" />
+        )}
+      </Link>
     </header>
   );
 }

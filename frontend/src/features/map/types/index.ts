@@ -33,6 +33,9 @@ export interface GeoIssue {
   summary: string;
   live: boolean;
   resolved: boolean;
+  createdAt?: string;
+  priority?: string;
+  aiSummary?: string;
 }
 
 export interface GeoPrediction {
@@ -79,4 +82,18 @@ export interface HeatPoint {
   lng: number;
   lat: number;
   weight: number;
+}
+
+export interface GeoMission {
+  id: string;
+  name: string;
+  priority: string;
+  crew: string;
+  progress: number;
+  eta: string;
+  district: string;
+  status: string;
+  aiSummary: string;
+  issueId: string;
+  createdAt: string;
 }

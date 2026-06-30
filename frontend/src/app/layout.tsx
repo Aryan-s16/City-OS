@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "@ds/themes/theme.css";
 import "./globals.css";
 import { ThemeProvider } from "@/components/shell/ThemeProvider";
+import { AgentStreamProvider } from "@/providers/AgentStreamProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,7 +37,9 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: noFlashScript }} />
       </head>
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <AgentStreamProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </AgentStreamProvider>
       </body>
     </html>
   );

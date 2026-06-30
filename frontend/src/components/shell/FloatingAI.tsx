@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Sparkles, X, ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { duration, easing } from "@/design/tokens";
+import { duration, easing } from "@/styles/tokens";
 
 const INSIGHTS = [
   {
@@ -13,7 +13,7 @@ const INSIGHTS = [
   },
   {
     tone: "primary",
-    text: "Pothole cluster on Market St resolved 22% faster than the city average.",
+    text: "Pothole cluster on FC Road resolved 22% faster than the city average.",
   },
 ];
 

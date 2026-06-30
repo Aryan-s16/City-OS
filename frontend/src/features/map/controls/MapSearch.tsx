@@ -3,7 +3,8 @@
 import { useMemo, useState } from "react";
 import { Search, CornerDownLeft } from "lucide-react";
 import { cn } from "@ds";
-import { GEO_ISSUES, GEO_PREDICTIONS, COMMUNITY_REPORTS } from "../data/city";
+import { GEO_PREDICTIONS, COMMUNITY_REPORTS } from "../data/city";
+import { useLiveIssues } from "@/hooks/useLiveIssues";
 
 export interface MapSearchPick {
   lng: number;
@@ -13,21 +14,23 @@ export interface MapSearchPick {
   label: string;
 }
 
-const INDEX: MapSearchPick[] = [
-  ...GEO_ISSUES.map((i) => ({ lng: i.lng, lat: i.lat, kind: "issue" as const, id: i.id, label: `${i.title} · ${i.district}` })),
-  ...GEO_PREDICTIONS.map((p) => ({ lng: p.lng, lat: p.lat, kind: "prediction" as const, id: p.id, label: p.title })),
-  ...COMMUNITY_REPORTS.map((r) => ({ lng: r.lng, lat: r.lat, kind: "community" as const, id: r.id, label: r.title })),
-];
-
 export function MapSearch({ onPick, className }: { onPick: (p: MapSearchPick) => void; className?: string }) {
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
+  const { issues: liveIssues } = useLiveIssues();
 
   const results = useMemo(() => {
     const s = q.trim().toLowerCase();
     if (!s) return [];
-    return INDEX.filter((i) => i.label.toLowerCase().includes(s)).slice(0, 6);
-  }, [q]);
+    
+    const index: MapSearchPick[] = [
+      ...liveIssues.map((i) => ({ lng: i.lng, lat: i.lat, kind: "issue" as const, id: i.id, label: `${i.title} · ${i.district}` })),
+      ...GEO_PREDICTIONS.map((p) => ({ lng: p.lng, lat: p.lat, kind: "prediction" as const, id: p.id, label: p.title })),
+      ...COMMUNITY_REPORTS.map((r) => ({ lng: r.lng, lat: r.lat, kind: "community" as const, id: r.id, label: r.title })),
+    ];
+    
+    return index.filter((i) => i.label.toLowerCase().includes(s)).slice(0, 6);
+  }, [q, liveIssues]);
 
   return (
     <div className={cn("w-72 max-w-[60vw]", className)}>

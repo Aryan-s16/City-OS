@@ -1,15 +1,15 @@
 import type { StyleSpecification } from "maplibre-gl";
 
-/** Initial camera over San Francisco. */
-export const SF_VIEW = {
-  longitude: -122.4324,
-  latitude: 37.7699,
+/** Initial camera over Pune. */
+export const PUNE_VIEW = {
+  longitude: 73.8567,
+  latitude: 18.5204,
   zoom: 12.2,
   pitch: 0,
   bearing: 0,
 };
 
-export const SF_CENTER: [number, number] = [SF_VIEW.longitude, SF_VIEW.latitude];
+export const PUNE_CENTER: [number, number] = [PUNE_VIEW.longitude, PUNE_VIEW.latitude];
 
 /**
  * Light basemap — OpenFreeMap "positron": calm, minimal, vector, OSM-based.

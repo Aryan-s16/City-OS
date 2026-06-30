@@ -1,8 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { TrendingUp, MapPin, Clock, Users, ArrowRight } from "lucide-react";
-import { ISSUES, MISSIONS, PREDICTIONS, DEPARTMENTS } from "@/lib/mock";
+import { TrendingUp, MapPin, Clock, Users, ArrowRight, Play, CheckCircle } from "lucide-react";
+import { PREDICTIONS, DEPARTMENTS } from "@/lib/mock";
 import {
   Panel,
   PanelHeader,
@@ -16,6 +16,11 @@ import {
   cn,
 } from "@ds";
 import { useContextPanel } from "@/hooks/useContextPanel";
+import { useLiveIssues } from "@/hooks/useLiveIssues";
+import { useLiveMissions } from "@/hooks/useLiveMissions";
+import { CONFIG } from "@/config";
+import { ExecutionTimeline } from "./ExecutionTimeline";
+import { useState } from "react";
 
 function Stat({
   icon: Icon,
@@ -37,23 +42,72 @@ function Stat({
 
 function IssuePanel({ onClose }: { onClose: () => void }) {
   const id = useContextPanel((s) => s.id);
-  const issue = ISSUES.find((i) => i.id === id);
+  const select = useContextPanel((s) => s.select);
+  const { issues } = useLiveIssues();
+  const issue = issues.find((i) => i.id === id);
+  const [loading, setLoading] = useState(false);
+  
   if (!issue) return null;
+  
+  const reportedAt = issue.createdAt ? new Date(issue.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Just now";
+  
+  const handleCreateMission = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${CONFIG.api.baseUrl}/missions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: `Response to: ${issue.title}`,
+          issue_id: issue.id,
+          priority: issue.priority || "Medium",
+          description: issue.summary,
+          category: issue.category,
+          district: issue.district,
+          location: { lat: issue.lat, lng: issue.lng }
+        })
+      });
+      const data = await res.json();
+      if (data.id) {
+        select("mission", data.id);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    setLoading(false);
+  };
+
   return (
     <>
       <PanelHeader kicker="Issue intelligence" title={issue.title} onClose={onClose} />
-      <PanelBody>
-        <Badge tone={issue.tone} dot>
-          {issue.status}
-        </Badge>
-        <AIReasoning>{issue.summary}</AIReasoning>
-        <AIConfidence value={issue.confidence} />
-        <Stat icon={MapPin} label="District" value={issue.district} />
-        <Stat icon={Clock} label="Reported" value={`${issue.time} ago`} />
-        <Button className="w-full">
-          Create mission
-          <ArrowRight className="h-4 w-4" strokeWidth={2} />
+      <PanelBody className="flex flex-col gap-4 overflow-y-auto">
+        <div>
+          <Badge tone={issue.priority === "Critical" ? "danger" : issue.priority === "High" ? "warning" : "primary"} dot>
+            {issue.status.toUpperCase()} — {issue.priority || "Unprioritized"}
+          </Badge>
+        </div>
+        
+        {issue.aiSummary && (
+          <AIReasoning title="AI Summary">{issue.aiSummary}</AIReasoning>
+        )}
+        
+        {issue.confidence && issue.confidence > 0 && (
+          <AIConfidence value={issue.confidence} />
+        )}
+        
+        <div className="space-y-2">
+          <Stat icon={MapPin} label="Category" value={issue.category || "Unknown"} />
+          <Stat icon={Clock} label="Reported" value={reportedAt} />
+        </div>
+
+        <Button className="w-full mt-2" onClick={handleCreateMission} disabled={loading}>
+          {loading ? "Creating..." : "Create mission"}
+          <ArrowRight className="h-4 w-4 ml-1" strokeWidth={2} />
         </Button>
+
+        <div className="mt-4 border-t border-border pt-4 h-96 flex flex-col">
+          <ExecutionTimeline issueId={issue.id} />
+        </div>
       </PanelBody>
     </>
   );
@@ -61,13 +115,55 @@ function IssuePanel({ onClose }: { onClose: () => void }) {
 
 function MissionPanel({ onClose }: { onClose: () => void }) {
   const id = useContextPanel((s) => s.id);
-  const m = MISSIONS.find((x) => x.id === id);
+  const { missions } = useLiveMissions();
+  const m = missions.find((x) => x.id === id);
+  const [loading, setLoading] = useState(false);
+
   if (!m) return null;
+
+  const transitionState = async (newState: string) => {
+    setLoading(true);
+    try {
+      await fetch(`${CONFIG.api.baseUrl}/missions/${m.id}/transition`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ new_state: newState })
+      });
+    } catch(e) {
+      console.error(e);
+    }
+    setLoading(false);
+  };
+
+  const assignCrew = async () => {
+    setLoading(true);
+    try {
+      await fetch(`${CONFIG.api.baseUrl}/missions/${m.id}/assign`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({})
+      });
+    } catch(e) {
+      console.error(e);
+    }
+    setLoading(false);
+  };
+
+  const playDemo = async () => {
+    setLoading(true);
+    try {
+      await fetch(`${CONFIG.api.baseUrl}/missions/demo/lifecycle/${m.id}`, { method: "POST" });
+    } catch (e) {
+      console.error(e);
+    }
+    setLoading(false);
+  };
+
   return (
     <>
       <PanelHeader kicker="Mission details" title={m.name} onClose={onClose} />
-      <PanelBody>
-        <div className="flex items-center gap-2">
+      <PanelBody className="flex flex-col gap-4 overflow-y-auto">
+        <div className="flex flex-wrap items-center gap-2">
           <Badge tone="primary" dot>
             {m.status}
           </Badge>
@@ -87,10 +183,30 @@ function MissionPanel({ onClose }: { onClose: () => void }) {
             />
           </div>
         </div>
-        <AIReasoning>{m.aiSummary}</AIReasoning>
-        <Stat icon={Users} label="Crew" value={m.crew} />
-        <Stat icon={Clock} label="ETA" value={m.eta} />
-        <Stat icon={MapPin} label="District" value={m.district} />
+        
+        {m.aiSummary && <AIReasoning>{m.aiSummary}</AIReasoning>}
+        
+        <div className="space-y-2">
+          <Stat icon={Users} label="Crew" value={m.crew} />
+          <Stat icon={Clock} label="ETA" value={m.eta} />
+          <Stat icon={MapPin} label="District" value={m.district} />
+        </div>
+
+        <div className="mt-4 pt-4 border-t border-border grid grid-cols-2 gap-2">
+          {m.status === "Draft" && <Button onClick={assignCrew} disabled={loading}>Assign Crew</Button>}
+          {m.status === "Assigned" && <Button onClick={() => transitionState("Crew Dispatched")} disabled={loading}>Dispatch</Button>}
+          {m.status === "Crew Dispatched" && <Button onClick={() => transitionState("In Progress")} disabled={loading}>Start Work</Button>}
+          {m.status === "In Progress" && <Button onClick={() => transitionState("Completed")} disabled={loading}>Complete</Button>}
+          {m.status === "Completed" && <Button onClick={() => transitionState("Verified")} disabled={loading}>Verify</Button>}
+          {m.status === "Verified" && <div className="col-span-2 flex justify-center items-center gap-2 text-success"><CheckCircle className="w-5 h-5"/> Mission Complete</div>}
+          
+          {m.status !== "Verified" && (
+            <Button className="col-span-2 mt-2" onClick={playDemo} disabled={loading}>
+              <Play className="w-4 h-4 mr-2" />
+              Play Lifecycle Demo
+            </Button>
+          )}
+        </div>
       </PanelBody>
     </>
   );
@@ -213,3 +329,4 @@ export function AdaptiveContextPanel({ className }: { className?: string }) {
     </Panel>
   );
 }
+

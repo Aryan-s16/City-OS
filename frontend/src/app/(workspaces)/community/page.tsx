@@ -55,7 +55,7 @@ export default function Community() {
               summary={r.summary}
               severity={r.tone}
               severityLabel={r.status}
-              location="San Francisco"
+              location="Pune"
               time="recent"
               confidence={Math.min(0.99, 0.7 + r.verifications * 0.05)}
               onClick={() => setOpenId(r.id)}

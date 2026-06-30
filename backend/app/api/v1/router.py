@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.v1 import health, issues, agents, analyze, orchestration, mission_control, predictive, community, copilot, replay
+from app.api.v1 import health, issues, agents, analyze, orchestration, mission_control, predictive, community, copilot, replay, missions, notifications
 
 api_router = APIRouter()
 
@@ -13,3 +13,5 @@ api_router.include_router(predictive.router, prefix="/predictive", tags=["predic
 api_router.include_router(community.router, prefix="/community", tags=["community"])
 api_router.include_router(copilot.router, prefix="/copilot", tags=["copilot"])
 api_router.include_router(replay.router, prefix="/replay", tags=["replay"])
+api_router.include_router(missions.router, prefix="/missions", tags=["missions"])
+api_router.include_router(notifications.router, prefix="/notifications", tags=["notifications"])

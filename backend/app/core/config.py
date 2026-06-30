@@ -30,4 +30,13 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=True, extra="ignore")
 
+    def validate_setup(self):
+        """Validate required environment variables for Phase B."""
+        # For Phase A, we just warn. In Phase B, we raise exceptions.
+        if not self.FIREBASE_CREDENTIALS_PATH and not self.FIREBASE_PROJECT_ID:
+            print("WARNING: Firebase credentials not fully configured. Using mocks.")
+        if not self.GEMINI_API_KEY:
+            print("WARNING: GEMINI_API_KEY is missing. AI reasoning will be disabled.")
+
 settings = Settings()
+settings.validate_setup()

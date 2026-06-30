@@ -1,1 +1,1 @@
-from pydantic import BaseModel\n
+from pydantic import BaseModel
