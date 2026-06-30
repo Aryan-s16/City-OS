@@ -16,3 +16,4 @@ langgraph==0.0.26
 langchain-core==0.1.30
 sse-starlette==2.0.0
 redis>=5.0.0
+langchain-google-genai==0.0.9
